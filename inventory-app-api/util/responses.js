@@ -27,9 +27,17 @@ const failedResponse = (res) => {
     })
 }
 
+const unauthorizedResponse = (res) => {
+    res.status(401).json({
+        'Status': 401,
+        'Message':"Unauthorized Access"
+    });
+}
+
 module.exports = {
     successGetResponse,
     failedGetResponse,
     successResponse,
-    failedResponse
+    failedResponse,
+    unauthorizedResponse
 }
