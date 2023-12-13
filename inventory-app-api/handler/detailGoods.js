@@ -1,4 +1,4 @@
-const { getAllDetailGoodsRepo, insertDetailGoodsRepo, updateDetailGoodsRepo, deleteDetailGoodsRepo } = require('../repository/detailGoodsRepository')
+const { getAllDetailGoodsRepo, insertDetailGoodsRepo, updateDetailGoodsRepo, deleteDetailGoodsRepo, findDetailGoodsRepo } = require('../repository/detailGoods')
 const { successGetResponse, failedGetResponse, failedResponse, successResponse } = require('../util/responses')
 
 const getAllDetailGoods = async (req, res) => {
@@ -49,9 +49,19 @@ const deleteDetailGoods = async (req, res) => {
     return successResponse(res)
 }
 
+const findDetailGoods = async (req, res) => {
+    const id = req.params.id
+
+    const result = await findDetailGoodsRepo(id)
+    if(!result) return failedGetResponse(res)
+
+    return successGetResponse(res, result)
+}
+
 module.exports = {
     getAllDetailGoods,
     insertDetailGoods,
     updateDetailGoods,
-    deleteDetailGoods
+    deleteDetailGoods,
+    findDetailGoods
 }

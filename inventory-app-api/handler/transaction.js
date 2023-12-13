@@ -1,4 +1,4 @@
-const { getTransactionsRepo, insertTransactionRepo, updateTransactionRepo, deleteTransactionRepo } = require('../repository/transactionRepository')
+const { getTransactionsRepo, insertTransactionRepo, updateTransactionRepo, deleteTransactionRepo, findTransactionRepo } = require('../repository/transaction')
 const { successGetResponse, failedGetResponse, failedResponse, successResponse } = require('../util/responses')
 
 const getTransactions = async (req, res) => {
@@ -51,9 +51,19 @@ const deleteTransaction = async (req, res) => {
     return successResponse(res)
 }
 
+const findTransaction = async (req, res) => {
+    const { startDate, endDate } = req.query
+
+    const transactions = await findTransactionRepo(startDate, endDate)
+    if (!transactions) return failedGetResponse(res)
+
+    return successGetResponse(res, transactions)
+}
+
 module.exports = {
     getTransactions,
     insertTransaction,
     updateTransaction,
-    deleteTransaction
+    deleteTransaction,
+    findTransaction
 }

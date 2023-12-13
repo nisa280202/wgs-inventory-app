@@ -1,5 +1,7 @@
-const { getUsersRepo, insertUserRepo, updateUserRepo, deleteUserRepo } = require('../repository/userRepository')
+const { getUsersRepo, insertUserRepo, updateUserRepo, deleteUserRepo, loginRepo } = require('../repository/user')
 const { successGetResponse, failedGetResponse, failedResponse, successResponse } = require('../util/responses')
+const { comparedPassword, getHashedPassword } = require('../util/argon')
+const getJWTKey = require('../util/jwt')
 
 const getUsers = async (req, res) => {
     const users = await getUsersRepo()
@@ -14,7 +16,7 @@ const insertUser = async (req, res) => {
         type: type,
         name: name,
         email: email,
-        password: password
+        password: await getHashedPassword(password)
     }
 
     const data = await insertUserRepo(users)
@@ -47,9 +49,30 @@ const deleteUser = async (req, res) => {
     return successResponse(res)
 }
 
+const login = async (req, res) => {
+    const { email, password } = req.body
+    const users = {
+        email: email,
+        password: password
+    }
+
+    const result = await loginRepo(users.email)
+    if(result == null) return failedGetResponse(res, result)
+    
+    const passwordMatch = await comparedPassword(users.password, result.password)
+    if (!passwordMatch) return failedResponse(res, "Email or Password wrong")
+    delete result.password
+
+    const jwtToken = getJWTKey(result)
+    result['accessToken'] = jwtToken
+    
+    return successGetResponse(res, result)
+}
+
 module.exports = {
     getUsers,
     insertUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    login
 }

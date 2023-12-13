@@ -1,6 +1,6 @@
 const express = require('express')
 
-const { getUsers, insertUser, updateUser, deleteUser } = require('../handler/userHandler')
+const { getUsers, insertUser, updateUser, deleteUser } = require('../handler/user')
 
 const router = express.Router()
 

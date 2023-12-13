@@ -1,6 +1,6 @@
 const express = require('express')
 
-const { getDetailTransactions, insertDetailTransaction, updateDetailTransaction, deleteDetailTransaction } = require('../handler/detailTransactionHandler')
+const { getDetailTransactions, insertDetailTransaction, updateDetailTransaction, deleteDetailTransaction } = require('../handler/detailTransaction')
 
 const router = express.Router()
 

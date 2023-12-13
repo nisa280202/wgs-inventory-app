@@ -1,4 +1,4 @@
-const { getAllGoodsRepo, insertGoodsRepo, updateGoodsRepo, deleteGoodsRepo } = require('../repository/goodsRepository')
+const { getAllGoodsRepo, insertGoodsRepo, updateGoodsRepo, deleteGoodsRepo, findGoodsRepo } = require('../repository/goods')
 const { successGetResponse, failedGetResponse, failedResponse, successResponse } = require('../util/responses')
 
 const getAllGoods = async (req, res) => {
@@ -51,9 +51,25 @@ const deleteGoods = async (req, res) => {
     return successResponse(res)
 }
 
+const findGoods = async (req, res) => {
+    try {
+        const keyword = req.query.name || req.query.category // Menggunakan query parameter untuk kata kunci pencarian
+        const result = await findGoodsRepo(keyword)
+        
+        if (result.length == 0) {
+            return failedGetResponse(res, 'No goods found for the provided keyword.')
+        }
+        return successGetResponse(res, result)
+    } catch (error) {
+        console.error(error)
+        return failedResponse(res)
+    }
+}
+
 module.exports = {
     getAllGoods,
     insertGoods,
     updateGoods,
-    deleteGoods
+    deleteGoods,
+    findGoods
 }

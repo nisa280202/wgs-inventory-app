@@ -50,9 +50,23 @@ const deleteTransactionRepo = async (id) => {
     }
 }
 
+const findTransactionRepo = async (startDate, endDate) => {
+    try {
+        const queryText = 'SELECT * FROM transactions WHERE date BETWEEN $1 AND $2'
+        const values = [startDate, endDate]
+        const result = await query(queryText, values)
+
+        return result.rows
+    } catch (error) {
+        console.log(error)
+        return null
+    }
+}
+
 module.exports = {
     getTransactionsRepo,
     insertTransactionRepo,
     updateTransactionRepo,
-    deleteTransactionRepo
+    deleteTransactionRepo,
+    findTransactionRepo
 }

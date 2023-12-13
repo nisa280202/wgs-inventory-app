@@ -1,4 +1,4 @@
-const { getDetailTransactionsRepo, insertDetailRepo, insertDetailTransactionRepo, updateDetailTransactionRepo, deleteDetailTransactionRepo } = require('../repository/detailTransactionRepository')
+const { getDetailTransactionsRepo, insertDetailTransactionRepo, updateDetailTransactionRepo, deleteDetailTransactionRepo } = require('../repository/detailTransaction')
 const { successGetResponse, failedGetResponse, failedResponse, successResponse } = require('../util/responses')
 
 const getDetailTransactions = async (req, res) => {

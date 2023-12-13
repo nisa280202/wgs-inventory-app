@@ -50,9 +50,22 @@ const deleteGoodsRepo = async (id) => {
     }
 }
 
+const findGoodsRepo = async (keyword) => {
+    try {
+        const queryText = 'SELECT * FROM goods WHERE name ILIKE $1 OR category ILIKE $1'
+        const result = await query(queryText, [`%${keyword}%`])
+
+        return result.rows
+    } catch (error) {
+        console.log(error)
+        return null
+    }
+}
+
 module.exports = {
     getAllGoodsRepo,
     insertGoodsRepo,
     updateGoodsRepo,
-    deleteGoodsRepo
+    deleteGoodsRepo,
+    findGoodsRepo
 }

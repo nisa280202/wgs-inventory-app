@@ -50,9 +50,22 @@ const deleteDetailGoodsRepo = async (id) => {
     }
 }
 
+const findDetailGoodsRepo = async (id) => {
+    try {
+        const queryText = 'SELECT * FROM detail_goods WHERE id = $1'
+        const result = await query(queryText, [id])
+
+        return result.rows[0]
+    } catch (error) {
+        console.log(error)
+        return null
+    }
+}
+
 module.exports = {
     getAllDetailGoodsRepo,
     insertDetailGoodsRepo,
     updateDetailGoodsRepo,
-    deleteDetailGoodsRepo
+    deleteDetailGoodsRepo,
+    findDetailGoodsRepo
 }

@@ -50,9 +50,22 @@ const deleteUserRepo = async (id) => {
     }
 }
 
+const loginRepo = async (email) => {
+    try {
+        const queryText = 'SELECT * FROM users WHERE email = $1'
+        const result = await query(queryText, [email])
+
+        return result.rows[0]
+    } catch (error) {
+        console.log(error)
+        return null
+    }
+}
+
 module.exports = {
     getUsersRepo,
     insertUserRepo,
     updateUserRepo,
-    deleteUserRepo
+    deleteUserRepo,
+    loginRepo
 }
