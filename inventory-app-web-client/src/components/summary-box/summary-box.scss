@@ -1,0 +1,83 @@
+@use '../../scss/abstracts/' as *;
+
+.box-container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 820px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+    margin-top: 10px;
+    gap: 20px;  // Adjust the gap between rows as needed
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.box {
+    flex: 1;
+    margin-right: 20px;
+    // Your existing styles for summary-box can go here
+}
+
+.chart-stock {
+    margin-top: -30px;
+    margin-right: -20px;
+    margin-left: -2px;
+}
+
+.summary-box {
+    @include flex(stretch, flex-start);
+    
+    &__icon {
+        width: 25%;
+        color: $orange;
+        margin-top: 15px;
+
+        &__value {
+            margin-bottom: 30%;
+            font-weight: 700;
+        }
+    }
+
+    &__info {
+        width: 70%;
+        @include flex(flex-start, space-between);
+        flex-direction: column;
+
+        &__title {
+            font-size: $fontSizeMedium;
+            font-weight: 700;
+            line-height: 1.2;
+
+            span {
+                font-size: 13px;
+                font-weight: 400;
+            }
+        }
+
+        &__value {
+            font-weight: 700;
+            font-size: $fontSizeLarge;
+            color: $purple;
+        }
+    }
+}
+
+.summary-box-special {
+    @include flex(center, space-between);
+    flex-direction: column;
+    height: 100%;
+
+    &__title {
+        font-weight: 700;
+        font-size: $fontSizeMedium;
+    }
+
+    &__value {
+        font-size: $fontSizeLarge;
+        font-weight: 700;
+    }
+}
