@@ -1,23 +1,34 @@
-const { getTransactionsRepo, insertTransactionRepo, updateTransactionRepo, deleteTransactionRepo, findTransactionRepo } = require('../repository/transaction')
+const { getTransactionsRepo, insertTransactionRepo, updateTransactionRepo, deleteTransactionRepo, findTransactionRepo, getTransactionRepo } = require('../repository/transaction')
 const { successGetResponse, failedGetResponse, failedResponse, successResponse } = require('../util/responses')
 
 const getTransactions = async (req, res) => {
-    const transactions = await getTransactionsRepo()
+    const transactions = await getTransactionsRepo();
+    if (!transactions) return failedGetResponse(res);
+
+    return successGetResponse(res, transactions);
+}
+
+const getTransaction = async (req, res) => {
+    const id = req.params.id
+    const transactions = await getTransactionRepo(id)
     if (!transactions) return failedGetResponse(res)
 
     return successGetResponse(res, transactions)
 }
 
 const insertTransaction = async (req, res) => {
-    const { user_id, type, date, sender, recipient, status } = req.body
+    const user_id = req.user.id
+    // console.log(req.user)
+    const { type, date, sender, recipient, status } = req.body
     const transactions = {
         user_id: user_id,
         type: type,
         date: date,
         sender: sender,
         recipient: recipient,
-        status: status
+        status: status,
     }
+    console.log(transactions);
 
     const data = await insertTransactionRepo(transactions)
     if (!data) return failedResponse(res)
@@ -26,16 +37,14 @@ const insertTransaction = async (req, res) => {
 }
 
 const updateTransaction = async (req, res) => {
-    const id = req.params.id
-    const { user_id, type, date, sender, recipient, status } = req.body
+    // const id = req.params.id
+    const { id, type, date, sender, recipient } = req.body
     const transactions = {
         id: id,
-        user_id: user_id,
         type: type,
         date: date,
         sender: sender,
         recipient: recipient,
-        status: status
     }
 
     const data = await updateTransactionRepo(transactions)
@@ -62,6 +71,7 @@ const findTransaction = async (req, res) => {
 
 module.exports = {
     getTransactions,
+    getTransaction,
     insertTransaction,
     updateTransaction,
     deleteTransaction,
