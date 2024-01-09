@@ -1,12 +1,13 @@
 const jwt = require('jsonwebtoken')
-const unauthorizedResponse = require('../util/responses')
+const { unauthorizedResponse } = require('../util/responses')
 require('dotenv').config()
 
 const middleware = (userType) => {
     return (req, res, next) => {
         const authHeader = req.headers['authorization']
+        // console.log(authHeader)
         const token = authHeader && authHeader.split(' ')[1]
-        console.log(token)
+        // console.log(token)
 
         if (!token) {
             return unauthorizedResponse(res)

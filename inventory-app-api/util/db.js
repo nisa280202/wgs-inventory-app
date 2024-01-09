@@ -12,6 +12,6 @@ const pool = new Pool({
     port: process.env.PORT_DB
 })
 
-const query = util.promisify(pool.query).bind(pool)
+const query = util.promisify(pool.query).bind(pool) 
 
 module.exports = query
