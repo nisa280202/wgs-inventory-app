@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faTrash, faCog } from '@fortawesome/free-solid-svg-icons'
+import { faEye, faTrash, faCog, faEdit, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import images from '../../constants/images'
 import UpdateGoods from '../modal/UpdateGoods'
 import { TablePagination } from '@mui/material'
@@ -68,10 +68,7 @@ const GoodsTable = ({ searchQuery }) => {
     const goods = searchQuery
         ? originalGoods.filter(
             (item) =>
-                item.name &&
-                item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                (item.category &&
-                item.category.toLowerCase().includes(searchQuery.toLowerCase()))
+                item.name && item.name.toLowerCase().includes(searchQuery.toLowerCase())
             )
         : originalGoods;
 
@@ -97,7 +94,9 @@ const GoodsTable = ({ searchQuery }) => {
             Swal.fire({
                 icon: 'success',
                 title: 'Success!',
-                text: 'Goods has been successfully updated.'
+                text: 'Goods has been successfully updated.',
+                timer: 2000,
+                timerProgressBar: true
             });
         } catch (error) {
             console.error('Update Request Error: ', error);
@@ -105,7 +104,9 @@ const GoodsTable = ({ searchQuery }) => {
             Swal.fire({
                 icon: 'error',
                 title: 'Failed!',
-                text: 'An error occurred while updating the goods.'
+                text: 'An error occurred while updating the goods.',
+                timer: 2000,
+                timerProgressBar: true
             });
         }
     };
@@ -191,12 +192,12 @@ const GoodsTable = ({ searchQuery }) => {
                             {type == 1 || type == 2 ? (
                                 <TableCell>
                                     <FontAwesomeIcon 
-                                        icon={faEye} 
-                                        style={{ color: '#ED6C02', marginRight: '8px', fontSize: '16px', cursor: 'pointer' }} 
+                                        icon={faInfoCircle} 
+                                        style={{ color: 'orange', marginRight: '8px', fontSize: '16px', cursor: 'pointer' }} 
                                         onClick={() => handleDetail(goods)}
                                     />
                                     <FontAwesomeIcon 
-                                        icon={faCog} 
+                                        icon={faEdit} 
                                         style={{ color: '#8624DB', marginLeft: '12px', marginRight: '8px', fontSize: '16px', cursor: 'pointer' }}
                                         onClick={() => handleUpdate(goods)}
                                     />

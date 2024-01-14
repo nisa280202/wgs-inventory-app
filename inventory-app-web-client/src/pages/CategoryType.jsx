@@ -57,6 +57,8 @@ const CategoryType = () => {
                 icon: 'success',
                 title: 'Category Added!',
                 text: 'The Category has been added successfully.',
+                timer: 2000,
+                timerProgressBar: true
             });
         } catch (error) {
             console.error('Axios Request Error:', error);
@@ -66,6 +68,8 @@ const CategoryType = () => {
                 icon: 'error',
                 title: 'Error!',
                 text: 'Category name must be unique. Please choose a different name.',
+                timer: 2000,
+                timerProgressBar: true
             })
         }
     }

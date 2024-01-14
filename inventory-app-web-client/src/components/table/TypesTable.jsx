@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash, faCog } from '@fortawesome/free-solid-svg-icons'
+import { faTrash, faCog, faEdit } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import UpdateType from '../modal/UpdateType'
@@ -16,7 +16,7 @@ const TypesTable = () => {
     const [types, setTypes] = useState([])
     const [selectedType, setSelectedType] = useState(null)
     const [openUpdate, setOpenUpdate] = useState(false)
-    const type = localStorage.getItem('type')
+    const typeUser = localStorage.getItem('type')
 
     const handleUpdate = (type) => {
         setSelectedType(type)
@@ -49,7 +49,9 @@ const TypesTable = () => {
             Swal.fire({
                 icon: 'success',
                 title: 'Success!',
-                text: 'Type has been successfully updated.'
+                text: 'Type has been successfully updated.',
+                timer: 2000,
+                timerProgressBar: true
             });
         } catch (error) {
             console.error('Update Request Error: ', error)
@@ -57,7 +59,9 @@ const TypesTable = () => {
             Swal.fire({
                 icon: 'error',
                 title: 'Failed!',
-                text: 'An error occurred while updating the type.'
+                text: 'An error occurred while updating the type.',
+                timer: 2000,
+                timerProgressBar: true
             });
         }
     }
@@ -102,7 +106,7 @@ const TypesTable = () => {
                     <TableRow>
                         <TableCell>No</TableCell>
                         <TableCell>Type Name</TableCell>
-                        {type == 1 ? <TableCell>Actions</TableCell> : null}
+                        {typeUser == 1 ? <TableCell>Actions</TableCell> : null}
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -115,10 +119,10 @@ const TypesTable = () => {
                                 {index+1}
                             </TableCell>
                             <TableCell>{type.name}</TableCell>
-                            {type == 0 || type == 2 ? null : 
+                            {typeUser == 1 ? ( 
                                 <TableCell>
                                     <FontAwesomeIcon
-                                        icon={faCog}
+                                        icon={faEdit}
                                         style={{ color: '#8624DB', marginRight: '8px', fontSize: '16px', cursor: 'pointer' }}
                                         onClick={() => handleUpdate(type)}
                                     />
@@ -128,7 +132,7 @@ const TypesTable = () => {
                                         onClick={() => handleDelete(type.id)}
                                     />
                                 </TableCell>
-                            }
+                            ) : null }
                         </TableRow>
                     ))}
                 </TableBody>

@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCog, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faCog, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
 import images from '../../constants/images'
 import Swal from 'sweetalert2' // Import SweetAlert library
 import UpdateUser from '../modal/UpdateUser'
@@ -54,6 +54,8 @@ const UsersTable = () => {
                 icon: 'success',
                 title: 'Update Success',
                 text: 'User data has been successfully updated!',
+                timer: 2000,
+                timerProgressBar: true
             });
         } catch (error) {
             console.error('Update Request Error: ', error)
@@ -63,6 +65,8 @@ const UsersTable = () => {
                 icon: 'error',
                 title: 'Update Failed',
                 text: 'Failed to update user data. Please try again.',
+                timer: 2000,
+                timerProgressBar: true
             });
         }
     }
@@ -116,10 +120,6 @@ const UsersTable = () => {
                         <TableRow key={user.id}>
                             <TableCell className="tableCell">
                                 {(user.type === 0) ? "SUPER ADMIN" : (user.type === 1) ? "OFFICE STAFF" : "WAREHOUSE STAFF"}
-                                {/* {(user.type === 0) ? (<Button variant="outlined" color="error" size="small">SUPER ADMIN</Button>) : 
-                                (user.type === 1) ? (<Button variant="outlined" color="warning" size="small">ADMIN</Button>) : 
-                                (user.type === 2) ? (<Button variant="outlined" size="small">OFFICE STAFF</Button>) : 
-                                (<Button variant="outlined" color="secondary" size="small">WAREHOUSE STAFF</Button>)} */}
                             </TableCell>
                             <TableCell className="tableCell">
                                 <div className="cellWrapper">
@@ -130,7 +130,7 @@ const UsersTable = () => {
                             <TableCell className="tableCell">{user.email}</TableCell>
                             <TableCell>
                                 <FontAwesomeIcon
-                                    icon={faCog}
+                                    icon={faEdit}
                                     style={{ color: '#8624DB', marginRight: '8px', fontSize: '16px', cursor: 'pointer' }}
                                     onClick={() => handleUpdate(user)}
                                 />

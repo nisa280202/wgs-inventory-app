@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-// import { Bar } from 'react-chartjs-2'
 import Box from '../components/box/Box'
 import DashboardWrapper, { DashboardWrapperMain, DashboardWrapperRight } from '../components/dashboard-wrapper/DashboardWrapper'
 import SummaryBox, { SummaryBoxSpecial } from '../components/summary-box/SummaryBox'
@@ -8,26 +7,6 @@ import OverallList from '../components/overall-list/OverallList'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer } from 'recharts';
 import axios from 'axios'
 import MinimumStockGoods from '../components/min-stock-goods/MinimumStockGoods'
-// import {
-//     Chart as ChartJS,
-//     CategoryScale,
-//     LinearScale,
-//     PointElement,
-//     BarElement,
-//     Title,
-//     // Tooltip,
-//     Legend
-// } from 'chart.js'
-
-// ChartJS.register (
-//     CategoryScale,
-//     LinearScale,
-//     PointElement,
-//     BarElement,
-//     Title,
-//     Tooltip,
-//     Legend
-// )
 
 const Dashboard = () => {
     return (

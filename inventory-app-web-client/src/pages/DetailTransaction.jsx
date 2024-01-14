@@ -127,6 +127,8 @@ const DetailTransaction = () => {
                 icon: 'success',
                 title: 'Add Success!',
                 text: 'New detail transaction has been successfully added!',
+                timer: 2000,
+                timerProgressBar: true
             });
             // navigate('/transactions')
         } catch (error) {
@@ -135,6 +137,8 @@ const DetailTransaction = () => {
                 icon: 'error',
                 title: 'Add Failed',
                 text: 'Failed to add a new detail transaction. Please try again.',
+                timer: 2000,
+                timerProgressBar: true
             });
         }
     }        

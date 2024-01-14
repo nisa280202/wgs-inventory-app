@@ -53,6 +53,8 @@ const Login = () => {
                     icon: 'success',
                     title: 'Login Successful!',
                     text: 'You have successfully logged in.',
+                    timer: 2000,
+                    timerProgressBar: true
                 });
             } else {
                 // Tampilkan pesan kesalahan jika peran tidak valid
@@ -67,6 +69,8 @@ const Login = () => {
                     icon: 'error',
                     title: 'Login Failed!',
                     text: 'Invalid username or password. Please try again.',
+                    timer: 2000,
+                    timerProgressBar: true
                 });
         }
     }

@@ -37,21 +37,6 @@ const UpdateTransaction = ({ open, onClose, onUpdateTransaction, transaction }) 
             }));
         }
     }, [transaction]);
-
-    // useEffect(() => {
-    //     if (transaction) {
-    //         setUpdateTransaction((prevTransaction) => ({
-    //             ...prevTransaction,
-    //             id: transaction.id || '',
-    //             type: transaction.type || '',
-    //             date: transaction.date || '',
-    //             sender: transaction.sender || '',
-    //             recipient: transaction.recipient || '',
-    //             status: transaction.status,
-    //         }))
-    //     }
-    // }, [transaction])
-    // console.log(updateTransaction)
     
     const [dateValid, setDateValid] = useState(true)
 
@@ -117,7 +102,7 @@ const UpdateTransaction = ({ open, onClose, onUpdateTransaction, transaction }) 
                             name="row-radio-buttons-group"
                             id="type"
                             onChange={handleTypeChange}
-                            value={updateTransaction.type || "0"}
+                            value={updateTransaction.type || 0}
                             sx={{ marginBottom: 2 }}
                         >
                             <FormControlLabel value="0" control={<Radio />} label="IN" />

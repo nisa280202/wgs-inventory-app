@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash, faCog } from '@fortawesome/free-solid-svg-icons'
+import { faTrash, faCog, faEdit } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import UpdateCategory from '../modal/UpdateCategory'
@@ -16,7 +16,7 @@ const CategoriesTable = () => {
     const [categories, setCategories] = useState([])
     const [selectedCategory, setSelectedCategory] = useState(null)
     const [openUpdate, setOpenUpdate] = useState(false)
-    const type = localStorage.getItem('type')
+    const typeUser = localStorage.getItem('type')
 
     const handleUpdate = (category) => {
         setSelectedCategory(category)
@@ -49,7 +49,9 @@ const CategoriesTable = () => {
             Swal.fire({
                 icon: 'success',
                 title: 'Success!',
-                text: 'Category has been successfully updated.'
+                text: 'Category has been successfully updated.',
+                timer: 2000,
+                timerProgressBar: true
             });
         } catch (error) {
             console.error('Update Request Error: ', error)
@@ -57,7 +59,9 @@ const CategoriesTable = () => {
             Swal.fire({
                 icon: 'error',
                 title: 'Failed!',
-                text: 'An error occurred while updating the category.'
+                text: 'An error occurred while updating the category.',
+                timer: 2000,
+                timerProgressBar: true
             });
         }
     }
@@ -102,7 +106,7 @@ const CategoriesTable = () => {
                     <TableRow>
                         <TableCell>No</TableCell>
                         <TableCell>Category Name</TableCell>
-                        {type == 1 ? <TableCell>Actions</TableCell> : null}
+                        {typeUser == 1 ? <TableCell>Actions</TableCell> : null}
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -115,10 +119,10 @@ const CategoriesTable = () => {
                                 {index+1}
                             </TableCell>
                             <TableCell>{category.name}</TableCell>
-                            {type == 1 ? (
+                            {typeUser == 1 ? (
                                 <TableCell>
                                     <FontAwesomeIcon
-                                        icon={faCog}
+                                        icon={faEdit}
                                         style={{ color: '#8624DB', marginRight: '8px', fontSize: '16px', cursor: 'pointer' }}
                                         onClick={() => handleUpdate(category)}
                                     />

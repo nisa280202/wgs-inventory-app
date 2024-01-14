@@ -26,6 +26,8 @@ const Goods = () => {
                 icon: 'success',
                 title: 'Success!',
                 text: 'Goods added successfully.',
+                timer: 2000,
+                timerProgressBar: true
             });
         } catch (error) {
             console.error('Axios Request Error:', error);
@@ -34,6 +36,8 @@ const Goods = () => {
                 icon: 'error',
                 title: 'Error!',
                 text: 'Failed to add goods.',
+                timer: 2000,
+                timerProgressBar: true
             });
         }
     };

@@ -22,42 +22,6 @@ const AddTransactionModal = ({ open, onClose, onAddTransaction }) => {
 
     const [dateValid, setDateValid] = useState(true)
 
-    // const handleInputChange = (e) => {
-    //     const { name, value } = e.target
-    //     setNewTransaction((prevTransaction) => ({
-    //     ...prevTransaction,
-    //     [name]: value,
-    //     }))
-    // }
-
-    // const handleInputChange = (e) => {
-    //     const { name, value } = e.target;
-    
-    //     // Check if the input is the date field
-    //     if (name === 'date') {
-    //         // Parse the input date using moment
-    //         const parsedDate = moment(value, 'YYYY-MM-DD');
-    
-    //         // Check if the parsed date is valid
-    //         if (parsedDate.isValid()) {
-    //             // Format the date as 'DD-MM-YYYY'
-    //             const formattedDate = parsedDate.format('DD-MM-YYYY');
-    
-    //             // Update the transaction with the formatted date
-    //             setNewTransaction((prevTransaction) => ({
-    //                 ...prevTransaction,
-    //                 [name]: formattedDate,
-    //             }));
-    //         }
-    //     } else {
-    //         // For other fields, update the transaction as usual
-    //         setNewTransaction((prevTransaction) => ({
-    //             ...prevTransaction,
-    //             [name]: value,
-    //         }));
-    //     }
-    // };
-
     const handleInputChange = (e) => {
         const { name, value } = e.target
         setNewTransaction((prevTransaction) => ({

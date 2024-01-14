@@ -31,6 +31,8 @@ const Users = () => {
                 icon: 'success',
                 title: 'Add Success',
                 text: 'New user has been successfully added!',
+                timer: 2000,
+                timerProgressBar: true
             });
         } catch (error) {
             console.error('Axios Request Error:', error);
@@ -40,6 +42,8 @@ const Users = () => {
                 icon: 'error',
                 title: 'Add Failed',
                 text: 'Failed to add a new user. Please try again.',
+                timer: 2000,
+                timerProgressBar: true
             });
         }
     }
