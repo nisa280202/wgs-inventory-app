@@ -5,9 +5,11 @@ import TransactionsTable from '../components/table/TransactionsTable'
 import AddTransaction from '../components/modal/AddTransaction'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import SearchIcon from '@mui/icons-material/Search'
 
 const Transactions = () => {
     const [openAdd, setOpenAdd] = useState(false)
+    const [searchQuery, setSearchQuery] = useState(''); // New state for search query
     const type = localStorage.getItem('type')
 
     const handleAdd = async (transaction) => { 
@@ -25,6 +27,8 @@ const Transactions = () => {
                 icon: 'success',
                 title: 'Transaction Added!',
                 text: 'The transaction has been added successfully.',
+                timer: 2000,
+                timerProgressBar: true
             });
         } catch (error) {
             console.error('Axios Request Error:', error);
@@ -34,6 +38,8 @@ const Transactions = () => {
                 icon: 'error',
                 title: 'Error!',
                 text: 'Failed to add the transaction. Please try again.',
+                timer: 2000,
+                timerProgressBar: true
             });
         }
     }
@@ -41,6 +47,31 @@ const Transactions = () => {
     return (
         <>
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px' }}>
+            <div style={{ position: 'relative', justifyContent: 'flex-end' }}>
+                    <input
+                        type="text"
+                        placeholder="Search transaction..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        style={{
+                            width: '250px',
+                            padding: '10px',
+                            paddingLeft: '40px',
+                            borderRadius: '5px',
+                            marginRight: '10px',
+                            border: '1px solid #ccc',
+                        }}
+                    />
+                    <SearchIcon
+                        style={{
+                            position: 'absolute',
+                            left: '10px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            cursor: 'pointer',
+                        }}
+                    />
+                </div>
                 {type == 1 ? (
                     <Button
                         variant="contained"
@@ -53,7 +84,7 @@ const Transactions = () => {
                     </Button>
                 ) : null}
             </div>
-            <TransactionsTable />
+            <TransactionsTable searchQuery={searchQuery} />
 
             <AddTransaction open={openAdd} onAddTransaction={handleAdd} onClose={() => setOpenAdd(false)} />
         </>

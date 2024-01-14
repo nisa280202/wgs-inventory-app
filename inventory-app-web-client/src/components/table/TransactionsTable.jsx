@@ -3,13 +3,13 @@ import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
 import { Button, Paper } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEdit, faTrash, faCog } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle, faEdit, faTrash, faCog } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import UpdateTransaction from '../modal/UpdateTransaction';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 
-const TransactionsTable = () => {
+const TransactionsTable = ({ searchQuery }) => {
     const [transactions, setTransactions] = useState([]);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     const [openUpdate, setOpenUpdate] = useState(false);
@@ -27,6 +27,15 @@ const TransactionsTable = () => {
 
         fetchData();
     }, [transactions]);
+
+    const transactionSearch = searchQuery
+        ? transactions.filter(
+            (item) =>
+                item.sender && item.sender.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                item.recipient && item.recipient.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                item.date && item.date.toLowerCase().includes(searchQuery.toLowerCase())
+            )
+        : transactions;
 
     const dataGridColumns = [
         { field: 'type', headerName: 'Type', width: 200, renderCell: (params) => params.value === 'IN' ? (
@@ -55,14 +64,14 @@ const TransactionsTable = () => {
                             />
                         ) : (
                             <FontAwesomeIcon 
-                                icon={faEye} 
-                                style={{ color: '#ED6C02', marginRight: '8px', fontSize: '16px', cursor: 'pointer' }} 
+                                icon={faInfoCircle} 
+                                style={{ color: 'orange', marginRight: '8px', fontSize: '16px', cursor: 'pointer' }} 
                             />
                         )}
                     </Link>
                     {type == 1 ? ( <div>
                         <FontAwesomeIcon
-                            icon={faCog}
+                            icon={faEdit}
                             style={{ color: '#8624DB', marginLeft: '12px', marginRight: '8px', fontSize: '16px', cursor: 'pointer' }}
                             onClick={() => handleUpdate(params.row)}
                         />
@@ -77,7 +86,7 @@ const TransactionsTable = () => {
         });
     }
 
-    const dataGridRows = transactions.map((transaction) => ({
+    const dataGridRows = transactionSearch.map((transaction) => ({
         id: transaction.id,
         type: transaction.type === 0 ? 'IN' : 'OUT',
         date: moment(transaction.date).format('DD/MM/YYYY'),
@@ -104,6 +113,8 @@ const TransactionsTable = () => {
                 icon: 'success',
                 title: 'Success!',
                 text: 'Transaction has been successfully updated.',
+                timer: 2000,
+                timerProgressBar: true
             });
         } catch (error) {
             console.error('Update Request Error: ', error);
@@ -112,6 +123,8 @@ const TransactionsTable = () => {
                 icon: 'error',
                 title: 'Failed!',
                 text: 'An error occurred while updating the transaction.',
+                timer: 2000,
+                timerProgressBar: true
             });
         }
     };
