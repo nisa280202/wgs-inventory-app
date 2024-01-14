@@ -1,6 +1,7 @@
-const query = require('../util/db')
-// const logActivityRepo = require('./log')
+// Import modul untuk menjalankan query ke database
+const query = require('../util/db');
 
+// Fungsi untuk mendapatkan semua barang dengan informasi tambahan
 const getAllGoodsRepo = async () => {
     try {
         const queryText = `
@@ -19,6 +20,7 @@ const getAllGoodsRepo = async () => {
     }
 }
 
+// Fungsi untuk mendapatkan detail barang berdasarkan ID
 const getGoodsRepo = async (id) => {
     try {
         const queryText = `
@@ -36,13 +38,12 @@ const getGoodsRepo = async (id) => {
     }
 }
 
+// Fungsi untuk menyisipkan barang baru ke dalam database
 const insertGoodsRepo = async (goods) => {
     try {
         const queryText = 'INSERT INTO goods(type_id, name, category_id, picture, unit, price, stock) VALUES ($1, $2, $3, $4, $5, $6, $7)'
         const value = [goods.type_id, goods.name, goods.category_id, goods.picture, goods.unit, goods.price, goods.stock]
         const result = await query(queryText, value)
-
-        // await logActivityRepo(userId, 'create', 'goods', `Goods ID: ${insertedGoods.id}, Name: ${insertedGoods.name}`);
 
         return result.rows
     } catch (error) {
@@ -51,6 +52,7 @@ const insertGoodsRepo = async (goods) => {
     }
 }
 
+// Fungsi untuk memperbarui informasi barang berdasarkan ID
 const updateGoodsRepo = async (goods) => {
     try {
         let updateQuery = 'UPDATE goods SET';
@@ -100,8 +102,6 @@ const updateGoodsRepo = async (goods) => {
 
         console.log(values);
         const result = await query(updateQuery, values);
-        // console.log(result)
-        // await logActivityRepo(userId, 'update', 'goods', `Goods ID: ${goods.id}, Name: ${goods.name}`);
 
         return result.rows;
     } catch (error) {
@@ -110,12 +110,11 @@ const updateGoodsRepo = async (goods) => {
     }
 }
 
+// Fungsi untuk menghapus barang berdasarkan ID
 const deleteGoodsRepo = async (id) => {
     try {
         const queryText = 'DELETE FROM goods WHERE id = $1'
         const result = await query(queryText, [id])
-
-        // await logActivityRepo(userId, 'delete', 'goods', `Goods ID: ${deletedGoods.id}, Name: ${deletedGoods.name}`);
 
         return result.rows[0]
     } catch (error) {
@@ -124,6 +123,7 @@ const deleteGoodsRepo = async (id) => {
     }
 }
 
+// Fungsi untuk mencari barang berdasarkan kata kunci
 const findGoodsRepo = async (keyword) => {
     try {
         const queryText = 'SELECT * FROM goods WHERE name ILIKE $1 OR category_id ILIKE $1'
@@ -136,6 +136,7 @@ const findGoodsRepo = async (keyword) => {
     }
 }
 
+// Ekspor fungsi-fungsi repository untuk digunakan dalam kode lain
 module.exports = {
     getAllGoodsRepo,
     getGoodsRepo,

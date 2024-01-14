@@ -1,6 +1,7 @@
-const query = require('../util/db')
-// const logActivityRepo = require('./log')
+// Import modul untuk menjalankan query ke database
+const query = require('../util/db');
 
+// Fungsi untuk mendapatkan semua detail transaksi dengan informasi tambahan
 const getDetailTransactionsRepo = async () => {
     try {
         const queryText = 'SELECT detail_transactions.*, transactions.id as transaction_id, goods.name as goods_name FROM detail_transactions INNER JOIN transactions ON detail_transactions.transaction_id = transactions.id INNER JOIN goods ON detail_transactions.goods_id = goods.id ORDER BY detail_transactions.id DESC';
@@ -13,6 +14,7 @@ const getDetailTransactionsRepo = async () => {
     }
 }
 
+// Fungsi untuk mendapatkan detail transaksi berdasarkan ID transaksi
 const getDetailTransactionByIdRepo = async (transaction_id) => {
     try {
         const queryText = 'SELECT detail_transactions.*, goods.name as goods_name FROM detail_transactions INNER JOIN goods ON detail_transactions.goods_id = goods.id WHERE detail_transactions.transaction_id = $1';
@@ -20,12 +22,14 @@ const getDetailTransactionByIdRepo = async (transaction_id) => {
         return result.rows;
     } catch (error) {
         console.error(error);
-        throw error; // Rethrow the error to be caught by the calling function
+        throw error; // Lebihkan kembali kesalahan untuk ditangkap oleh fungsi yang memanggil
     }
 }
 
+// Fungsi untuk menyisipkan detail transaksi baru ke dalam database
 const insertDetailTransactionRepo = async (detail_transactions) => {
     try {
+        // Mengecek keberadaan barang berdasarkan ID
         const queryTextCheckExistence = `
             SELECT COUNT(*)
             FROM goods
@@ -36,8 +40,8 @@ const insertDetailTransactionRepo = async (detail_transactions) => {
         const existenceResult = await query(queryTextCheckExistence, valuesCheckExistence);
         const isGoodsExist = existenceResult.rows[0].count > 0;
 
+        // Jika barang belum ada, buat query untuk menyisipkan barang baru
         if (!isGoodsExist) {
-            // Jika goods_id belum ada, buat query untuk insert ke goods
             const insertGoodsQuery = `
                 INSERT INTO goods(id, stock)
                 VALUES ($1, $2)
@@ -47,7 +51,7 @@ const insertDetailTransactionRepo = async (detail_transactions) => {
             await query(insertGoodsQuery, insertGoodsValues);
         }
 
-        // Setelah insert atau jika goods_id sudah ada, insert ke detail_transactions
+        // Setelah penyisipan atau jika barang sudah ada, menyisipkan detail transaksi ke dalam tabel detail_transactions
         const queryText = `
             INSERT INTO detail_transactions(goods_id, transaction_id, stock, status)
             VALUES ($1, $2, $3, $4)
@@ -63,8 +67,7 @@ const insertDetailTransactionRepo = async (detail_transactions) => {
         const result = await query(queryText, values);
         const insertedRow = result.rows[0];
 
-        // Update stock in goods table based on the status
-        // Update stock in goods table based on the status
+        // Update stok di tabel goods berdasarkan status transaksi
         const updateQuery = `
             UPDATE goods
             SET stock = CASE 
@@ -86,8 +89,6 @@ const insertDetailTransactionRepo = async (detail_transactions) => {
             console.log('Update failed or did not affect any rows.');
         }
 
-        // await logActivityRepo(userId, 'create', 'detail_transaction', `Detail Transaction ID: ${insertedRow.id}, Goods ID: ${detail_transactions.goods_id}, Transaction ID: ${detail_transactions.transaction_id}`);
-
         return insertedRow;
     } catch (error) {
         console.error(error);
@@ -95,14 +96,12 @@ const insertDetailTransactionRepo = async (detail_transactions) => {
     }
 };
 
+// Fungsi untuk memperbarui detail transaksi berdasarkan ID
 const updateDetailTransactionRepo = async (detail_transactions) => {
     try {
         const queryText = 'UPDATE detail_transactions SET goods_id = $1, transaction_id = $2, stock = $3, status = $4 WHERE id = $5'
         const value = [detail_transactions.goods_id, detail_transactions.transaction_id, detail_transactions.stock, detail_transactions.status, detail_transactions.id]
         const result = await query(queryText, value)
-
-        // await logActivityRepo(userId, 'update', 'detail_transaction', `Detail Transaction ID: ${detail_transactions.id}, Goods ID: ${detail_transactions.goods_id}, Transaction ID: ${detail_transactions.transaction_id}`);
-
         return result.rows
     } catch (error) {
         console.log(error)
@@ -110,13 +109,11 @@ const updateDetailTransactionRepo = async (detail_transactions) => {
     }
 }
 
+// Fungsi untuk menghapus detail transaksi berdasarkan ID
 const deleteDetailTransactionRepo = async (id) => {
     try {
         const queryText = 'DELETE FROM detail_transactions WHERE id = $1'
         const result = await query(queryText, [id])
-
-        // await logActivityRepo(userId, 'delete', 'detail_transaction', `Detail Transaction ID: ${deletedDetailTransaction.id}, Goods ID: ${deletedDetailTransaction.goods_id}, Transaction ID: ${deletedDetailTransaction.transaction_id}`);
-
         return result.rows[0]
     } catch (error) {
         console.log(error)
@@ -124,6 +121,7 @@ const deleteDetailTransactionRepo = async (id) => {
     }
 }
 
+// Ekspor fungsi-fungsi repository untuk digunakan dalam kode lain
 module.exports = {
     getDetailTransactionsRepo,
     getDetailTransactionByIdRepo,
